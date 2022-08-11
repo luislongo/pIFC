@@ -1,23 +1,25 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import Generic, Optional, TypeVar
+
+T = TypeVar("T")
 
 @dataclass
-class SLLNode :
-    value: int
-    next: Optional['SLLNode'] = None
+class SLLNode(Generic[T]) :
+    value: T
+    next: Optional['SLLNode[T]'] = None
         
 @dataclass
-class SLList :
-    root: Optional['SLLNode'] = None
+class SLList(Generic[T]) :
+    root: Optional['SLLNode[T]'] = None
     length: int = 0
     
-    def unshift(self, value: int) -> None:
+    def unshift(self, value: T) -> None:
         new_root = SLLNode(value, self.root or None)
         
         self.root = new_root
         self.length += 1
         
-    def shift(self) -> int | None :
+    def shift(self) -> T | None :
         if self.root is None:
             return None
          
@@ -27,7 +29,7 @@ class SLList :
         
         return result.value
     
-    def pop(self) -> int | None :
+    def pop(self) -> T | None :
         if self.root is None:
             return None
         else:  
